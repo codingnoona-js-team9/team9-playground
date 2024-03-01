@@ -4,7 +4,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, HelveticaNeue, Roboto,
       Helvetica, MalgunGothic, "맑은 고딕", sans-serif;
   }
-  h2 {
+  .p-h2 {
     font-size: 1.5em;
     margin: 0;
     padding: 10px 20px;
@@ -42,13 +42,6 @@ body {
     border-radius: 5px;
     position: relative;
   }
-  #search-show{
-    cursor: pointer;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    width: 30px;
-    }
   
   .search-container {
     display: none;
@@ -66,11 +59,18 @@ body {
     border: 1px solid black;
     font-size: 15px;
     font-weight: bold;
-  
+    
     width: 50px;
     right: 60px;
     top: 20px;
   }
+  #search-show{
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 30px;
+    }
   
   .container .popular .p-corpList,
   .f-corpList {
@@ -158,8 +158,23 @@ body {
     align-items: center;
   }
   
-  .salesIncrease .redbox {
+  .salesIncrease .plus {
     background-color: #ed3738;
+    width: 80px;
+    height: 30px;
+    margin: 4px 0 0 6px;
+    font-weight: 700;
+    line-height: 34px;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 30px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .salesIncrease .minus {
+    background-color: #097df3;
     width: 80px;
     height: 30px;
     margin: 4px 0 0 6px;
@@ -187,7 +202,7 @@ body {
   
   @media screen and (max-width: 768px) {
     .container .logo {
-      justify-content: left;
+      justify-content: center;
       align-items: center;
     }
     .container .logo .img-container {
@@ -232,7 +247,11 @@ body {
     .sales {
       font-size: 16px;
     }
-    .salesIncrease .redbox {
+    .salesIncrease .plus {
+      width: 50px;
+      font-size: 12px;
+    }
+    .salesIncrease .minus {
       width: 50px;
       font-size: 12px;
     }

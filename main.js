@@ -1,5 +1,4 @@
-// const API_KEY = "9fab3ef1d371e73ccc5e7b77cf1f54701ca89336";
-import config from "./config/apikey.js"
+import config from "./config/apikey.js";
 
 const API_KEY = config.apiKey;
 const CORP_CODE = [
@@ -185,35 +184,91 @@ popularGetCorpInfo();
 const render = () => {
   let result = "";
   for (let info of corpInfos) {
-    result += `<a class="p-corp corp" data-corp-id="${
-      info.corpName
-    }" href="detail.html?corpCode=${info.id}">
-                <div class="p-corpName corpName">
-                    <span>
-                        <img class="favorite-button" src="asset/no-like.png">
-                    </span>
-                    ${info.corpName}
-                </div>
-                <div class="p-sales sales">
-                ${Math.ceil(info.sales / 1000000000000)}조원
-            </div>
-            <div class="p-salesIncrease salesIncrease">
-                <div class="redbox">${Math.ceil(
-                  ((info.assetThisYear - info.assetLastYear) /
-                    info.assetLastYear) *
-                    100
-                )}%</div>
-            </div>
-            <div class="p-asset asset">
-                ${Math.ceil(info.asset / 1000000000000)}조원
-            </div>
-            <div class="p-netIncome netIncome">
-                ${Math.ceil(info.netIncome / 1000000000000)}조원
-            </div>
-            </a>`;
+    if (
+      ((info.assetThisYear - info.assetLastYear) / info.assetLastYear) * 100 >=
+      0
+    ) {
+      result += `<a class="p-corp corp" data-corp-id="${
+        info.corpName
+      }" href="detail.html?corpCode=${info.id}">
+                  <div class="p-corpName corpName">
+                      <span>
+                          <img class="favorite-button" src="asset/no-like.png">
+                      </span>
+                      ${info.corpName}
+                  </div>
+                  <div class="p-sales sales">
+                  ${expressJoEok(info.sales)}
+              </div>
+              <div class="p-salesIncrease salesIncrease">
+                  <div class="plus">${Math.ceil(
+                    ((info.assetThisYear - info.assetLastYear) /
+                      info.assetLastYear) *
+                      100
+                  )}%</div>
+              </div>
+              <div class="p-asset asset">
+              ${expressJoEok(info.asset)}
+              </div>
+              <div class="p-netIncome netIncome">
+              ${expressJoEok(info.netIncome)}
+              </div>
+              </a>`;
+    } else {
+      result += `<a class="p-corp corp" data-corp-id="${
+        info.corpName
+      }" href="detail.html?corpCode=${info.id}">
+                  <div class="p-corpName corpName">
+                      <span>
+                          <img class="favorite-button" src="asset/no-like.png">
+                      </span>
+                      ${info.corpName}
+                  </div>
+                  <div class="p-sales sales">
+                  ${expressJoEok(info.sales)}
+              </div>
+              <div class="p-salesIncrease salesIncrease">
+                  <div class="minus">
+                     ${Math.ceil(
+                        ((info.assetThisYear - info.assetLastYear) /
+                          info.assetLastYear) *
+                          100
+                  )}%</div>
+              </div>
+              <div class="p-asset asset">
+                  ${expressJoEok(info.asset)}
+              </div>
+              <div class="p-netIncome netIncome">
+                  ${expressJoEok(info.netIncome)}
+              </div>
+              </a>`;
+    }
   }
+
   document.querySelector(".p-listContent").innerHTML = result;
 };
+
+function expressJoEok(amount) {
+  // 조 단위로 변환
+  let amountInJo = Math.floor(amount / 1000000000000); // 조 단위를 구함
+  // 억 단위로 변환 (1조를 넘는 부분만 계산)
+  let amountInEok = ((amount % 1000000000000) / 100000000).toFixed(0); // 억 단위를 구하고 정수로 변환
+  // 숫자에 콤마(,) 추가
+  let amountInEokWithComma = parseInt(amountInEok).toLocaleString("ko-KR");
+
+  return `${amountInJo}조 ${amountInEokWithComma}억원`;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("search-show").addEventListener("click", () => {
+    const searchArea = document.querySelector(".search-container");
+    if (searchArea.style.display === "flex") {
+      searchArea.style.display = "none";
+    } else {
+      searchArea.style.display = "flex";
+    }
+  });
+});
 
 // document.addEventListener("DOMContentLoaded", function() {
 //   // 모든 'p-favorite-button'에 대한 클릭 이벤트 리스너 추가
@@ -235,12 +290,3 @@ const render = () => {
 //       });
 //   });
 // });
-
-const showSearch = () => {
-  const searchArea = document.querySelector(".search-container");
-  if (searchArea.style.display === "flex") {
-    searchArea.style.display = "none";
-  } else {
-    searchArea.style.display = "flex";
-  }
-};
